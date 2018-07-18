@@ -34,6 +34,8 @@ app.post('/nickname',(req,res)=>{
     let flag = 0;
     users.forEach(item=>{
         if(item.nickname===req.body.nickname){
+            console.log(item.nickname);
+            console.log(req.body.nickname);
             res.status(403).send("Nickname is already taken");
             res.end();
             flag =1;
@@ -41,6 +43,11 @@ app.post('/nickname',(req,res)=>{
         }
 
     });
+    console.log(req.body.nickname);
+    console.log(users);
+    console.log(flag);
+
+
     if(!flag)users.push(req.body);
 
 });

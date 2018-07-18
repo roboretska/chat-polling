@@ -38,8 +38,16 @@ function NameEnter() {
                     'nickname': nickNameField.value
                 }
             });
+            console.log(sessionStorage.getItem('login'));
+            if(!sessionStorage.getItem('login')){
+                alert("Nickname already taken");
+            }else{
+                popUp.style.display = 'none';
 
-            popUp.style.display = 'none';
+            }
+
+            // userNameField.value = '';
+            // nickNameField.value = '';
 
         } else {
             alert("Enter username and nickname");
@@ -72,27 +80,34 @@ function ajaxRequest(options) {
     const method = options.method || 'GET';
     const callback = options.callback || function () {
     };
-    const data = options.data || {};
+    let data = options.data || {};
     const xmlHttp = new XMLHttpRequest();
 
     xmlHttp.open(method, url, true);
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     xmlHttp.send(JSON.stringify(data));
     xmlHttp.onreadystatechange = function () {
-        if (url === '/nickname' && xmlHttp.status === 403 ) {
+        console.log(xmlHttp.status)
+        if (xmlHttp.status === 403 && url === '/nickname') {
             alert("This nickname already taken, please, choose another");
-            NameEnter();
+            sessionStorage.setItem('login', 0);
+            return 0;
 
         }
-        // }
+
+        if ( xmlHttp.status === 200 && url === '/nickname' && xmlHttp.readyState === 4){
+            sessionStorage.setItem('login', 1);
+            return 1;
+        }
         if (xmlHttp.status === 200 && xmlHttp.readyState === 4) {
-            console.log(xmlHttp.status);
             callback(xmlHttp.responseText);
         }
-
+        data={};
     };
 
-};
+
+}
+;
 
 
 function getData() {
