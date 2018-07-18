@@ -47,13 +47,13 @@ function NameEnter() {
 
 function messageSend() {
     const messageInputField = document.getElementById('message-input-field');
+    let date = new Date();
 
-
-    console.log('im working');
     let message = {
         'name': sessionStorage.getItem('userName'),
         'nick': sessionStorage.getItem('nickName'),
-        'time': new Date(),
+        'time': date.getHours() + ":" + date.getMinutes() + " " + date.getDay() + "." +
+        date.getMonth() + "." + date.getDate(),
         'text': messageInputField.value
     };
     ajaxRequest({
@@ -93,8 +93,8 @@ function getData() {
             message = JSON.parse(message);
             const userNameField = document.getElementById('messages-container');
             userNameField.innerHTML = "";
-            message.forEach(item => {
-                createMessageViews(item);
+            message.forEach((item, i) => {
+                createMessageViews(item, i%2);
             })
         }
     });
@@ -105,8 +105,8 @@ function getData() {
             userList = JSON.parse(userList);
             const chatMatesList = document.getElementById("chatmates-list");
             chatMatesList.innerHTML = "";
-            userList.forEach((item, i) => {
-                createUsersList(item, i%2);
+            userList.forEach((item) => {
+                createUsersList(item);
             })
         }
     })
@@ -118,21 +118,23 @@ function createMessageViews(message, i) {
 
     const userNameField = document.getElementById('messages-container');
     const contentWrapper = document.createElement('li');
-
-    const messageWrapper = document.createElement('div');
+    console.log(i);
+    contentWrapper.setAttribute('class', i? "left-side" :"right-side");
 
     const header = document.createElement('h5');
     const messageText = document.createElement('p');
     const timeDisplay = document.createElement('p');
 
     userNameField.appendChild(contentWrapper);
-    contentWrapper.appendChild(messageWrapper);
-    messageWrapper.appendChild(header);
-    messageWrapper.appendChild(timeDisplay);
-    messageWrapper.appendChild(messageText);
+    contentWrapper.appendChild(header);
+    contentWrapper.appendChild(timeDisplay);
+    contentWrapper.appendChild(messageText);
     header.innerHTML = message.name + "(@" + message.nick + ")";
     messageText.innerHTML = message.text;
     timeDisplay.innerHTML = message.time;
+
+    document.getElementsByClassName('messages-wrapper')[0].scrollTo(0, document.getElementsByClassName('messages-wrapper')[0].getBoundingClientRect().bottom);
+
 
 }
 

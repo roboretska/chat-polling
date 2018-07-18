@@ -67,7 +67,7 @@
 
 }
 
-.messages-wrapper{
+.messages-wrapper, .member-list{
     overflow: scroll;
 }
 
@@ -86,4 +86,11 @@ li{
     border-radius: 15px;
     margin: 15px 5px;
     padding: 10px 5px;
+}
+
+.left-side{
+    text-align: left;
+}
+.right-side{
+    text-align: right;
 }
