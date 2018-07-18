@@ -94,7 +94,7 @@ function getData() {
             const userNameField = document.getElementById('messages-container');
             userNameField.innerHTML = "";
             message.forEach((item, i) => {
-                createMessageViews(item, i%2);
+                createMessageViews(item, i % 2);
             })
         }
     });
@@ -119,7 +119,21 @@ function createMessageViews(message, i) {
     const userNameField = document.getElementById('messages-container');
     const contentWrapper = document.createElement('li');
     console.log(i);
-    contentWrapper.setAttribute('class', i? "left-side" :"right-side");
+    contentWrapper.setAttribute('class', i ? "left-side" : "right-side");
+
+    const nicknameStart = message.text.indexOf("@") + 1;
+    if (nicknameStart) {
+        const search = message.text.substring(
+            nicknameStart,
+            message.text.indexOf(" ", nicknameStart)
+        );
+        if(sessionStorage.getItem('nickName')===search){
+            contentWrapper.setAttribute('class', 'private-message')
+        }
+    }
+
+
+
 
     const header = document.createElement('h5');
     const messageText = document.createElement('p');
@@ -130,6 +144,7 @@ function createMessageViews(message, i) {
     contentWrapper.appendChild(timeDisplay);
     contentWrapper.appendChild(messageText);
     header.innerHTML = message.name + "(@" + message.nick + ")";
+
     messageText.innerHTML = message.text;
     timeDisplay.innerHTML = message.time;
 
@@ -138,6 +153,7 @@ function createMessageViews(message, i) {
 
 }
 
+
 function createUsersList(user) {
     const chatMatesList = document.getElementById("chatmates-list");
 
@@ -145,6 +161,6 @@ function createUsersList(user) {
 
     chatMatesList.appendChild(userWrapper);
     console.log(user);
-    userWrapper.innerHTML=user.username + "(@" + user.nickname + ")";
+    userWrapper.innerHTML = user.username + "(@" + user.nickname + ")";
 
 }

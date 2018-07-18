@@ -32,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="script.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/view/script/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-519">
-              <caret line="96" column="39" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
+            <state relative-caret-position="355">
+              <caret line="131" column="9" lean-forward="true" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
               <folding>
                 <element signature="n#!!block;n#createUsersList#0" />
               </folding>
@@ -53,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chat.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="chat.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/view/style/chat.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="69" column="31" selection-start-line="69" selection-start-column="31" selection-end-line="69" selection-end-column="31" />
+            <state relative-caret-position="553">
+              <caret line="97" column="16" selection-start-line="97" selection-start-column="1" selection-end-line="97" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -99,8 +99,8 @@
         <option value="$PROJECT_DIR$/client/view/style/popup.css" />
         <option value="$PROJECT_DIR$/client/view/index.html" />
         <option value="$PROJECT_DIR$/server/app.js" />
-        <option value="$PROJECT_DIR$/client/view/script/script.js" />
         <option value="$PROJECT_DIR$/client/view/style/chat.css" />
+        <option value="$PROJECT_DIR$/client/view/script/script.js" />
       </list>
     </option>
   </component>
@@ -204,12 +204,12 @@
       <option name="presentableId" value="Default" />
       <updated>1531770484457</updated>
       <workItem from="1531770486010" duration="32297000" />
-      <workItem from="1531882849253" duration="5501000" />
+      <workItem from="1531882849253" duration="7065000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37798000" />
+    <option name="totallyTimeSpent" value="39362000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
@@ -326,16 +326,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/view/script/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-519">
-          <caret line="96" column="39" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
-          <folding>
-            <element signature="n#!!block;n#createUsersList#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/view/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="392">
@@ -345,8 +335,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/view/style/chat.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="69" column="31" selection-start-line="69" selection-start-column="31" selection-end-line="69" selection-end-column="31" />
+        <state relative-caret-position="553">
+          <caret line="97" column="16" selection-start-line="97" selection-start-column="1" selection-end-line="97" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/view/script/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="131" column="9" lean-forward="true" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
+          <folding>
+            <element signature="n#!!block;n#createUsersList#0" />
+          </folding>
         </state>
       </provider>
     </entry>
