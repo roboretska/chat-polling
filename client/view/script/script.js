@@ -1,20 +1,18 @@
 (function () {
 
-        const chatMatesList = document.getElementById("chatmates-list");
-        const messageInputButton = document.getElementById('message-input-button');
+    const chatMatesList = document.getElementById("chatmates-list");
+    const messageInputButton = document.getElementById('message-input-button');
 
 
+    NameEnter();
 
+    messageInputButton.onclick = function () {
+        messageSend();
+    };
 
-        NameEnter();
-
-        messageInputButton.onclick=function () {
-            messageSend();
-        };
-
-        setInterval(function (){
-            AJAXGetMessage();
-        }, 1000);
+    setInterval(function () {
+        getData();
+    }, 1000);
 }());
 
 
@@ -27,85 +25,98 @@ function NameEnter() {
     const popUpButton = document.getElementById('nickname-submit');
 
 
-    popUpButton.onclick=function () {
-        if(userNameField.value!=='' && nickNameField.value!=='') {
+    popUpButton.onclick = function () {
+        if (userNameField.value !== '' && nickNameField.value !== '') {
             sessionStorage.setItem('userName', userNameField.value);
             sessionStorage.setItem('nickName', nickNameField.value);
+            ajaxRequest({
+                'method': 'POST',
+                'url': '/nickname',
+                'data': {
+                    'username': userNameField.value,
+                    'nickname': nickNameField.value
+                }
+            });
             popUp.style.display = 'none';
-        }else {
+
+        } else {
             alert("Enter username and nickname");
         }
     };
 }
 
-function messageSend(){
+function messageSend() {
     const messageInputField = document.getElementById('message-input-field');
 
 
     console.log('im working');
-        let message = {
-            'name': sessionStorage.getItem('userName'),
-            'nick': sessionStorage.getItem('nickName'),
-            'time': new Date(),
-            'text': messageInputField.value
-        };
-
-    AJAXPostMessage(message);
-        messageInputField.value="";
-
-}
-
-function AJAXPostMessage(message){
-    const url = "/messages";
-    const method = "POST";
-    const xmlHTTP = new XMLHttpRequest();
-    xmlHTTP.open(method, url, true);
-    xmlHTTP.setRequestHeader("Content-type", "application/json");
-    xmlHTTP.send(JSON.stringify(message));
+    let message = {
+        'name': sessionStorage.getItem('userName'),
+        'nick': sessionStorage.getItem('nickName'),
+        'time': new Date(),
+        'text': messageInputField.value
+    };
+    ajaxRequest({
+        'method': 'POST',
+        'url': '/messages',
+        'data': message
+    });
+    messageInputField.value = "";
 
 }
 
-function AJAXGetMessage(){
-    const url = "/messages";
-    const method = "GET";
-    const xmlHTTP = new XMLHttpRequest();
-    xmlHTTP.open(method, url, true);
-    xmlHTTP.send();
-    xmlHTTP.onreadystatechange = function () {
-        if (xmlHTTP.status===200 && xmlHTTP.readyState===4){
-            getMessages(JSON.parse(xmlHTTP.responseText));
+function ajaxRequest(options) {
+    const url = options.url || '/';
+    const method = options.method || 'GET';
+    const callback = options.callback || function () {
+    };
+    const data = options.data || {};
+    const xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open(method, url, true);
+    xmlHttp.setRequestHeader('Content-Type', 'application/json');
+    xmlHttp.send(JSON.stringify(data));
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.status === 200 && xmlHttp.readyState === 4) {
+            callback(xmlHttp.responseText);
+        } else if (xmlHttp.status === 403) errorHandler(xmlHttp.responseText);
+    };
+
+};
+
+
+function getData() {
+    ajaxRequest({
+        url: '/messages',
+        method: 'GET',
+        callback: function (message) {
+            message = JSON.parse(message);
+            const userNameField = document.getElementById('messages-container');
+            userNameField.innerHTML = "";
+            message.forEach(item => {
+                createMessageViews(item);
+            })
         }
-    }
-}
-
-function getMessages(messages) {
-
-    console.log(messages);
-    const userNameField = document.getElementById('messages-container');
-    const messagesAmount= userNameField.getElementsByTagName('div').length;
-    sessionStorage.setItem("messagesAmount", messagesAmount);
-
-
-    if(messages.length > messagesAmount){
-        for(let i=sessionStorage.getItem('messagesAmount'); i<=messages.length; i++){
-            console.log(messages);
-            console.log(messages.length);
-
-            console.log(sessionStorage.getItem('messagesAmount'));
-            console.log(messages.length);
-            createMessageViews(messages[i]);
+    });
+    ajaxRequest({
+        url: '/nickname',
+        method: 'GET',
+        callback: function (userList) {
+            userList = JSON.parse(userList);
+            const chatMatesList = document.getElementById("chatmates-list");
+            chatMatesList.innerHTML = "";
+            userList.forEach((item, i) => {
+                createUsersList(item, i%2);
+            })
         }
-    }
-
+    })
 }
 
-function createMessageViews(message){
 
-    console.log(message);
+function createMessageViews(message, i) {
+
 
     const userNameField = document.getElementById('messages-container');
-
-
     const contentWrapper = document.createElement('li');
 
     const messageWrapper = document.createElement('div');
@@ -117,11 +128,21 @@ function createMessageViews(message){
     userNameField.appendChild(contentWrapper);
     contentWrapper.appendChild(messageWrapper);
     messageWrapper.appendChild(header);
-    messageWrapper.appendChild(messageText);
     messageWrapper.appendChild(timeDisplay);
+    messageWrapper.appendChild(messageText);
+    header.innerHTML = message.name + "(@" + message.nick + ")";
+    messageText.innerHTML = message.text;
+    timeDisplay.innerHTML = message.time;
 
-    header.innerHTML=message.name+"(@"+message.nick+")";
-    messageText.innerHTML=message.text;
-    timeDisplay.innerHTML=message.time;
+}
+
+function createUsersList(user) {
+    const chatMatesList = document.getElementById("chatmates-list");
+
+    const userWrapper = document.createElement('li');
+
+    chatMatesList.appendChild(userWrapper);
+    console.log(user);
+    userWrapper.innerHTML=user.username + "(@" + user.nickname + ")";
 
 }
