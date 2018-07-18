@@ -31,13 +31,18 @@ app.get('/nickname', (req,res)=>{
     res.json(users);
 });
 app.post('/nickname',(req,res)=>{
+    let flag = 0;
     users.forEach(item=>{
-        if(item.username===req.body.username){
-            res.status(404).send("Nickname is already taken");
+        if(item.nickname===req.body.nickname){
+            res.status(403).send("Nickname is already taken");
             res.end();
+            flag =1;
+            console.log('loosers')
         }
+
     });
-    users.push(req.body);
+    if(!flag)users.push(req.body);
+
 });
 
 

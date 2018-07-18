@@ -19,6 +19,7 @@
 function NameEnter() {
 
     const popUp = document.getElementById('pop-up');
+    popUp.style.display = '';
 
     const userNameField = document.getElementById('username-field');
     const nickNameField = document.getElementById('nickname-field');
@@ -37,6 +38,7 @@ function NameEnter() {
                     'nickname': nickNameField.value
                 }
             });
+
             popUp.style.display = 'none';
 
         } else {
@@ -77,9 +79,17 @@ function ajaxRequest(options) {
     xmlHttp.setRequestHeader('Content-Type', 'application/json');
     xmlHttp.send(JSON.stringify(data));
     xmlHttp.onreadystatechange = function () {
+        if (url === '/nickname' && xmlHttp.status === 403 ) {
+            alert("This nickname already taken, please, choose another");
+            NameEnter();
+
+        }
+        // }
         if (xmlHttp.status === 200 && xmlHttp.readyState === 4) {
+            console.log(xmlHttp.status);
             callback(xmlHttp.responseText);
-        } else if (xmlHttp.status === 403) errorHandler(xmlHttp.responseText);
+        }
+
     };
 
 };
@@ -118,7 +128,6 @@ function createMessageViews(message, i) {
 
     const userNameField = document.getElementById('messages-container');
     const contentWrapper = document.createElement('li');
-    console.log(i);
     contentWrapper.setAttribute('class', i ? "left-side" : "right-side");
 
     const nicknameStart = message.text.indexOf("@") + 1;
@@ -127,12 +136,10 @@ function createMessageViews(message, i) {
             nicknameStart,
             message.text.indexOf(" ", nicknameStart)
         );
-        if(sessionStorage.getItem('nickName')===search){
+        if (sessionStorage.getItem('nickName') === search) {
             contentWrapper.setAttribute('class', 'private-message')
         }
     }
-
-
 
 
     const header = document.createElement('h5');
@@ -160,7 +167,6 @@ function createUsersList(user) {
     const userWrapper = document.createElement('li');
 
     chatMatesList.appendChild(userWrapper);
-    console.log(user);
     userWrapper.innerHTML = user.username + "(@" + user.nickname + ")";
 
 }
